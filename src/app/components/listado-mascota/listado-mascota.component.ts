@@ -2,6 +2,9 @@ import { AfterViewInit, Component, ViewChild } from '@angular/core';
 import {MatTableDataSource, MatTableModule} from '@angular/material/table';
 import { Mascota } from '../../interfaces/mascota';
 import {MatPaginator, MatPaginatorModule} from '@angular/material/paginator';
+import { MatSort, MatSortModule } from '@angular/material/sort';
+import {MatInputModule} from '@angular/material/input';
+import { MatFormFieldModule } from '@angular/material/form-field';
 
 const listMascotas: Mascota[] = [
   {nombre: 'Ciro', edad: 3, raza: 'Golden', color: 'Dorado', peso: 13},
@@ -14,7 +17,7 @@ const listMascotas: Mascota[] = [
 @Component({
   selector: 'app-listado-mascota',
   standalone: true,
-  imports: [MatTableModule,MatPaginatorModule],
+  imports: [MatTableModule,MatPaginatorModule, MatSortModule,MatInputModule,MatFormFieldModule],
   templateUrl: './listado-mascota.component.html',
   styleUrl: './listado-mascota.component.css'
 })
@@ -22,9 +25,20 @@ export class ListadoMascotaComponent implements AfterViewInit {
   displayedColumns: string[] = ['nombre', 'edad','raza', 'color', 'peso'];
   dataSource = new MatTableDataSource<Mascota>(listMascotas);
   @ViewChild(MatPaginator) paginator!: MatPaginator;
+  @ViewChild(MatSort) sort!: MatSort;
 
   ngAfterViewInit() {
     this.dataSource.paginator = this.paginator;
-    this.paginator._intl.itemsPerPageLabel = 'Items por página'
+    this.dataSource.sort = this.sort;
+    this.paginator._intl.itemsPerPageLabel = 'Items por página';
+    
+  }
+  applyFilter(event: Event) {
+    const filterValue = (event.target as HTMLInputElement).value;
+    this.dataSource.filter = filterValue.trim().toLowerCase();
+
+    if (this.dataSource.paginator) {
+      this.dataSource.paginator.firstPage();
+    }
   }
 }
