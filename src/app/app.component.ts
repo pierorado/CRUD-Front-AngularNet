@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
+//componentes
 import { AgregarEditarMascotaComponent } from './components/agregar-editar-mascota/agregar-editar-mascota.component';
 import { ListadoMascotaComponent } from './components/listado-mascota/listado-mascota.component';
 import { VerMascotaComponent } from './components/ver-mascota/ver-mascota.component';

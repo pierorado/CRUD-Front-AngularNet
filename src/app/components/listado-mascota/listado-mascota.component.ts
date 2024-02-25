@@ -1,10 +1,10 @@
 import { AfterViewInit, Component, ViewChild } from '@angular/core';
-import {MatTableDataSource, MatTableModule} from '@angular/material/table';
 import { Mascota } from '../../interfaces/mascota';
-import {MatPaginator, MatPaginatorModule} from '@angular/material/paginator';
-import { MatSort, MatSortModule } from '@angular/material/sort';
-import {MatInputModule} from '@angular/material/input';
-import { MatFormFieldModule } from '@angular/material/form-field';
+import {MatTableDataSource} from '@angular/material/table';
+import {MatPaginator} from '@angular/material/paginator';
+import { MatSort} from '@angular/material/sort';
+import { SharedModule } from '../../shared/shared.module';
+
 
 const listMascotas: Mascota[] = [
   {nombre: 'Ciro', edad: 3, raza: 'Golden', color: 'Dorado', peso: 13},
@@ -17,12 +17,12 @@ const listMascotas: Mascota[] = [
 @Component({
   selector: 'app-listado-mascota',
   standalone: true,
-  imports: [MatTableModule,MatPaginatorModule, MatSortModule,MatInputModule,MatFormFieldModule],
+  imports: [SharedModule],
   templateUrl: './listado-mascota.component.html',
   styleUrl: './listado-mascota.component.css'
 })
 export class ListadoMascotaComponent implements AfterViewInit {
-  displayedColumns: string[] = ['nombre', 'edad','raza', 'color', 'peso'];
+  displayedColumns: string[] = ['nombre', 'edad','raza', 'color', 'peso','acciones'];
   dataSource = new MatTableDataSource<Mascota>(listMascotas);
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
