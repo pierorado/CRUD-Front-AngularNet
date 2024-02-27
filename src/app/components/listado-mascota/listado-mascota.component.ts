@@ -3,6 +3,7 @@ import { Mascota } from '../../interfaces/mascota';
 import {MatTableDataSource} from '@angular/material/table';
 import {MatPaginator} from '@angular/material/paginator';
 import { MatSort} from '@angular/material/sort';
+import { RouterLink } from '@angular/router';
 import { SharedModule } from '../../shared/shared.module';
 
 
@@ -17,7 +18,7 @@ const listMascotas: Mascota[] = [
 @Component({
   selector: 'app-listado-mascota',
   standalone: true,
-  imports: [SharedModule],
+  imports: [SharedModule,RouterLink],
   templateUrl: './listado-mascota.component.html',
   styleUrl: './listado-mascota.component.css'
 })
