@@ -1,10 +1,12 @@
 import { AfterViewInit, Component, ViewChild } from '@angular/core';
 import { Mascota } from '../../interfaces/mascota';
+import { SpinnerComponent } from '../../shared/spinner/spinner.component';
 import {MatTableDataSource} from '@angular/material/table';
 import {MatPaginator} from '@angular/material/paginator';
 import { MatSort} from '@angular/material/sort';
 import { RouterLink } from '@angular/router';
 import { SharedModule } from '../../shared/shared.module';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 
 const listMascotas: Mascota[] = [
@@ -18,15 +20,20 @@ const listMascotas: Mascota[] = [
 @Component({
   selector: 'app-listado-mascota',
   standalone: true,
-  imports: [SharedModule,RouterLink],
+  imports: [SharedModule,RouterLink,SpinnerComponent],
   templateUrl: './listado-mascota.component.html',
   styleUrl: './listado-mascota.component.css'
 })
 export class ListadoMascotaComponent implements AfterViewInit {
   displayedColumns: string[] = ['nombre', 'edad','raza', 'color', 'peso','acciones'];
   dataSource = new MatTableDataSource<Mascota>(listMascotas);
+  loading: boolean = false;
+
+
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
+
+  constructor(private _snackBar: MatSnackBar) {}
 
   ngAfterViewInit() {
     this.dataSource.paginator = this.paginator;
@@ -41,5 +48,19 @@ export class ListadoMascotaComponent implements AfterViewInit {
     if (this.dataSource.paginator) {
       this.dataSource.paginator.firstPage();
     }
+  }
+  eliminarMascotas(){
+    this.loading = true;
+    setTimeout(() => {
+      this.loading = false;
+      this._snackBar.open('La Mascota fue eliminada con exito','',{
+        duration: 4000,
+        horizontalPosition:'right'
+        
+      });
+    }, 3000);
+
+
+    
   }
 }
